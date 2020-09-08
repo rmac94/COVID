@@ -18,7 +18,7 @@ library(smooth)
 #Using MonstR API for ONS data
 
 #Installing and loading the monstR package
-remotes::install_github("HFAnalyticsLab/monstR", build_vignettes = TRUE )
+#remotes::install_github("HFAnalyticsLab/monstR", build_vignettes = TRUE )
 library(monstR)
 
 ##Choosing a dataset
@@ -89,7 +89,7 @@ CV_regional_process <- CV_regional_pop %>%
   arrange(`Area Name`, date) %>%
   #determine standardised cases & take differences
   mutate(Active_cases = case_when(is.na(lag(Daily_total,14)) ~ Cumulative_Cases - 0,
-                                      T ~ Cumulative_Cases - lag(Daily_total, 14)),
+                                      T ~ Cumulative_Cases - lag(Cumulative_Cases, 14)),
          delta_cases = case_when(is.na(lag(Active_cases)) ~ Active_cases - 0,
                                  T ~ Active_cases - lag(Active_cases,1)),
          Active_cases_p_000_000 = Active_cases*1000000/pop,
